@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An interactive evidence map of pancreatic endocrine lineage commitment, prepared for the Sneddon Lab by Cathy Liu.">
+    <title>When does pancreatic endocrine fate become visible?</title>
+    <link rel="stylesheet" href="styles.css?v=1">
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="wordmark" href="#top">Cathy Liu / research note</a>
+      <a class="contact-link" href="mailto:cathyliu014@gmail.com">Contact</a>
+    </header>
+
+    <main id="top">
+      <article>
+        <p class="eyebrow">Exploratory analysis · July 31, 2026</p>
+        <h1>When does pancreatic endocrine fate become visible?</h1>
+        <p class="dek">A paper-grounded map places a Fev-expressing state between Ngn3-positive progenitors and hormone-producing cells, then asks which signals begin to distinguish alpha from beta fate.</p>
+        <p class="byline">By Cathy Liu · prepared for the Sneddon Lab, UCSF</p>
+
+        <section class="lede" aria-labelledby="thesis-heading">
+          <h2 id="thesis-heading">The thesis</h2>
+          <p>The developmental sequence is more resolved than a binary progenitor-to-hormone transition. Sneddon Lab single-cell RNA-seq, pseudotime, and lineage tracing support an intermediate Fev-expressing state: Fev turns on after Ngn3, before hormone acquisition, and is traversed by most mature endocrine lineages. Within that interval, Gng12 and Peg10 provide experimentally validated signals of beta- and alpha-directed trajectories.</p>
+        </section>
+
+        <section aria-labelledby="timecourse-heading">
+          <div class="section-label">01 · Developmental timecourse</div>
+          <h2 id="timecourse-heading">Three snapshots capture a changing pancreas</h2>
+          <p>Select a stage from the public GSE101099 dataset. The readout shows the original v1 single-cell capture reported for that stage.</p>
+
+          <div class="stage-tabs" role="tablist" aria-label="Embryonic stage">
+            <button role="tab" aria-selected="false" data-stage="e12">E12.5</button>
+            <button role="tab" aria-selected="true" data-stage="e14">E14.5</button>
+            <button role="tab" aria-selected="false" data-stage="e17">E17.5</button>
+          </div>
+
+          <div class="stage-reading" aria-live="polite">
+            <div>
+              <span class="stage-number" id="stage-cells">9,028</span>
+              <span class="stage-unit">single-cell transcriptomes</span>
+            </div>
+            <p id="stage-note">At E14.5, two independent batches produced the largest snapshot in the v1 timecourse. The paper resolved 19 distinct populations in this stage, including a previously undescribed Fev-high endocrine progenitor state.</p>
+          </div>
+
+          <figure class="timecourse-figure">
+            <div class="axis-row">
+              <span>E12.5</span><span>E14.5</span><span>E17.5</span>
+            </div>
+            <div class="time-line" aria-hidden="true"><span id="time-marker"></span></div>
+            <figcaption>Across the three stages, the original dataset contains 18,294 cells. Stage selection changes context, not the underlying reported counts.</figcaption>
+          </figure>
+        </section>
+
+        <section aria-labelledby="trajectory-heading">
+          <div class="section-label">02 · Endocrine trajectory</div>
+          <h2 id="trajectory-heading">Fev marks a bridge, not an endpoint</h2>
+          <p>Select a state to see the evidence that places it along the endocrine trajectory.</p>
+
+          <div class="trajectory" role="tablist" aria-label="Endocrine differentiation state">
+            <button role="tab" aria-selected="false" data-state="ngn3"><span>01</span><strong>Ngn3+</strong><small>early endocrine progenitor</small></button>
+            <div class="trajectory-arrow" aria-hidden="true">→</div>
+            <button role="tab" aria-selected="true" data-state="fev"><span>02</span><strong>Fev<sup>Hi</sup></strong><small>intermediate state</small></button>
+            <div class="trajectory-arrow" aria-hidden="true">→</div>
+            <button role="tab" aria-selected="false" data-state="hormone"><span>03</span><strong>Hormone+</strong><small>differentiated endocrine cell</small></button>
+          </div>
+
+          <div class="state-detail" aria-live="polite">
+            <p class="result-kicker" id="state-kicker">Intermediate state</p>
+            <p class="result-main" id="state-main">Fev-high cells express Pax4, Chga/b, and Neurod1, but not mature Ins1 or Gcg and not the earlier marker Ngn3.</p>
+            <p class="result-note" id="state-note">Pseudotime placed Fev+/Pax4+ and Fev-high/Chgb+ cells between Ngn3+ progenitors and alpha or beta cells. In lineage-traced E14.5 pancreas, about 20% of Ngn3-lineage cells were Fev-high.</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="trace-heading">
+          <div class="section-label">03 · Lineage tracing</div>
+          <h2 id="trace-heading">Most endocrine lineages pass through Fev</h2>
+          <p>Choose an endocrine lineage. Each percentage is the fraction of hormone-positive E14.5 cells labeled by Fev-Cre lineage tracing.</p>
+
+          <div class="lineage-tabs" role="tablist" aria-label="Endocrine lineage">
+            <button role="tab" aria-selected="true" data-lineage="beta">Beta</button>
+            <button role="tab" aria-selected="false" data-lineage="alpha">Alpha</button>
+            <button role="tab" aria-selected="false" data-lineage="delta">Delta</button>
+            <button role="tab" aria-selected="false" data-lineage="gamma">Gamma</button>
+            <button role="tab" aria-selected="false" data-lineage="epsilon">Epsilon</button>
+          </div>
+
+          <figure class="trace-figure">
+            <div class="trace-reading">
+              <span class="trace-value" id="trace-value">100%</span>
+              <span class="trace-label" id="trace-label">of Ins1+ beta cells were lineage-labeled</span>
+            </div>
+            <div class="trace-track" aria-hidden="true"><span id="trace-bar"></span></div>
+            <figcaption id="trace-caption">46 cells across 4 pancreata. Complete labeling supports passage through a Fev-expressing state before beta-cell differentiation.</figcaption>
+          </figure>
+
+          <aside class="interpretation">
+            <p><strong>Interpretation.</strong> The contrast is informative: alpha, beta, and delta cells were fully labeled, gamma cells were nearly fully labeled, while epsilon cells were only partially labeled. Fev therefore marks a major endocrine route, but not an obligatory route for every embryonic endocrine lineage.</p>
+          </aside>
+        </section>
+
+        <section aria-labelledby="branch-heading">
+          <div class="section-label">04 · A branch begins to resolve</div>
+          <h2 id="branch-heading">Gng12 and Peg10 separate beta- and alpha-directed evidence</h2>
+          <p>The paper validated pseudotime-associated branch markers with in situ hybridization. Switch between the proposed outcomes to compare the asymmetry.</p>
+
+          <div class="branch-switch" role="tablist" aria-label="Lineage branch">
+            <button role="tab" aria-selected="true" data-branch="beta">Toward beta</button>
+            <button role="tab" aria-selected="false" data-branch="alpha">Toward alpha</button>
+          </div>
+
+          <div class="branch-reading" aria-live="polite">
+            <div class="branch-stat">
+              <span id="branch-primary-value">95.8%</span>
+              <small id="branch-primary-label">of beta cells expressed Gng12</small>
+            </div>
+            <div class="branch-stat muted-stat">
+              <span id="branch-secondary-value">30.5%</span>
+              <small id="branch-secondary-label">of beta cells expressed Peg10</small>
+            </div>
+          </div>
+          <p id="branch-note">Gng12 was already detectable in the Fev-high interval and became strongly enriched in beta cells, supporting it as a candidate signal of beta-directed allocation after Fev onset.</p>
+        </section>
+
+        <section aria-labelledby="next-heading">
+          <div class="section-label">05 · A next experiment</div>
+          <h2 id="next-heading">Test whether branch signals predict functional beta-cell maturity</h2>
+          <p>A useful extension would connect developmental state assignment to the lab's stem-cell and transplantation workflow. During hPSC differentiation, one could sort or index cells across the Ngn3-to-FEV interval, then ask whether early GNG12-high and PEG10-high programs predict later glucose-responsive insulin secretion after maturation.</p>
+          <ol class="experiment-steps">
+            <li><span>Measure</span> FEV, GNG12, PEG10, and endocrine markers across a dense hPSC differentiation timecourse using flow cytometry and single-cell RNA-seq.</li>
+            <li><span>Link</span> each early state to mature identity through lineage barcoding or compatible temporal tracing.</li>
+            <li><span>Validate</span> beta-cell function in vitro and after transplantation, while testing whether the branch signal generalizes across hPSC lines.</li>
+          </ol>
+          <p>This bridges the Sneddon Lab's developmental, genomic, tissue-engineering, and transplantation approaches. It also fits my experience in mammalian cell culture, flow cytometry, mouse models, and single-cell analysis in R and Python.</p>
+        </section>
+
+        <section class="methods" aria-labelledby="methods-heading">
+          <div class="section-label">Methods and limits</div>
+          <h2 id="methods-heading">A structured reading of reported evidence</h2>
+          <p>This demo organizes paper-reported cell counts, lineage-tracing percentages, marker validation, and inferred developmental relationships from Byrnes et al. (2018). It is not a reanalysis of the 496.6 MB processed expression matrix, and it does not infer unreported effect sizes or causal mechanisms. The trajectory is a preclinical developmental model; translation to human stem-cell differentiation and functional transplantation remains an experimental question.</p>
+          <div class="sources">
+            <h3>Sources</h3>
+            <ol>
+              <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6156586/">Byrnes et al. Lineage dynamics of murine pancreatic development at single-cell resolution. Nature Communications (2018).</a></li>
+              <li><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101099">GSE101099 · developmental single-cell RNA-seq of murine pancreas, NCBI GEO.</a></li>
+              <li><a href="https://diabetes.ucsf.edu/people/julie-sneddon">Julie Sneddon, PhD · Diabetes Center at UCSF.</a></li>
+              <li><a href="https://aprecruit.ucsf.edu/JPF05968">Junior/Assistant/Associate Specialist · Sneddon Lab, UCSF Academic Recruit.</a></li>
+            </ol>
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <footer>
+      <p>Prepared by Cathy Liu</p>
+      <p><a href="mailto:cathyliu014@gmail.com">cathyliu014@gmail.com</a> · <a href="tel:+14152163799">415-216-3799</a></p>
+    </footer>
+
+    <script src="data.js?v=1"></script>
+    <script src="app.js?v=1"></script>
+  </body>
+</html>
