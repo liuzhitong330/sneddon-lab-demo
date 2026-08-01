@@ -2,58 +2,60 @@ window.SNEDDON_LAB_DATA = {
   stages: {
     e12: {
       cells: "4,631",
-      marker: "0%",
-      note: "At E12.5, the v1 dataset captured the earliest stage in the timecourse, before the major secondary transition. It provides the baseline for tracking epithelial and mesenchymal diversification."
+      note: "E12.5 · 4,631 v1 transcriptomes. This earliest snapshot precedes the major secondary transition and anchors the developmental timecourse."
     },
     e14: {
       cells: "9,028",
-      marker: "50%",
-      note: "At E14.5, two independent batches produced the largest snapshot in the v1 timecourse. The paper resolved 19 distinct populations in this stage, including a previously undescribed Fev-high endocrine progenitor state."
+      note: "E14.5 · 9,028 v1 transcriptomes from two independent batches. Nineteen populations were resolved at this active stage of expansion and diversification."
     },
     e17: {
       cells: "4,635",
-      marker: "100%",
-      note: "At E17.5, the later snapshot captured continuing maturation and an increasing proportion of proliferating endocrine cells as endocrine mass expanded."
+      note: "E17.5 · 4,635 v1 transcriptomes. The later pancreas contained a growing fraction of proliferating endocrine cells and more mature beta-cell states."
     }
   },
   states: {
     ngn3: {
-      kicker: "Early progenitor",
-      main: "Ngn3-positive cells sit upstream of the Fev-expressing interval and retain cell-cycle and Notch-related programs.",
-      note: "In the Fev-lineage scRNA-seq experiment, eGFP reads appeared across endocrine populations except the Ngn3-positive population, supporting the timing of Fev onset after Ngn3."
+      name: "NGN3+ progenitor",
+      markers: "NGN3 · cell-cycle and Notch programs",
+      readout: "NGN3-positive cells sit upstream of FEV onset. In Fev-lineage scRNA-seq, eGFP reads appeared in every endocrine population except the NGN3-positive population.",
+      interpretation: "The missing eGFP signal in NGN3-positive cells supports the temporal ordering: FEV turns on after the transient NGN3 progenitor state."
     },
-    fev: {
-      kicker: "Intermediate state",
-      main: "Fev-high cells express Pax4, Chga/b, and Neurod1, but not mature Ins1 or Gcg and not the earlier marker Ngn3.",
-      note: "Pseudotime placed Fev+/Pax4+ and Fev-high/Chgb+ cells between Ngn3+ progenitors and alpha or beta cells. In lineage-traced E14.5 pancreas, about 20% of Ngn3-lineage cells were Fev-high."
+    fev_pax4: {
+      name: "FEV+ / PAX4+ early bridge",
+      markers: "FEV · PAX4 · RUNX1T1 · lower NGN3",
+      readout: "Pseudotime placed the FEV+/PAX4+ population directly after NGN3-positive progenitors and before the later FEV-high/CHGB-positive state.",
+      interpretation: "This early bridge preserves a trace of the NGN3 program while acquiring FEV and PAX4, resolving what would otherwise look like a single abrupt transition."
+    },
+    fev_chgb: {
+      name: "FEV-high / CHGB+ late bridge",
+      markers: "FEV · CHGA/B · NEUROD1 · no INS1 or GCG",
+      readout: "FEV-high cells express endocrine-lineage genes but not mature hormone markers. About 20% of Ngn3-lineage-traced cells at E14.5 occupied this FEV-high, NGN3-negative, ISL1-negative state.",
+      interpretation: "The selected FEV-high state expresses endocrine-lineage genes without mature hormone markers, locating it after NGN3 and before terminal alpha or beta identity."
     },
     hormone: {
-      kicker: "Differentiated state",
-      main: "Hormone-producing alpha and beta cells occupy the terminal branches of the reconstructed endocrine trajectory.",
-      note: "Fev persists at lower levels in a subset of hormone-positive cells, while lineage tracing shows that most alpha, beta, delta, and gamma cells previously expressed Fev."
+      name: "Hormone-positive outcomes",
+      markers: "INS1 (beta) · GCG (alpha)",
+      readout: "The reconstructed trajectory split after the FEV interval into branches terminating in differentiated INS1-high beta cells or GCG-high alpha cells.",
+      interpretation: "Terminal hormone expression appears after the shared FEV interval; branch-specific programs can therefore be examined before the mature identity is fully visible."
     }
   },
   lineages: {
-    beta: { value: 100, display: "100%", label: "of Ins1+ beta cells were lineage-labeled", caption: "46 cells across 4 pancreata. Complete labeling supports passage through a Fev-expressing state before beta-cell differentiation." },
-    alpha: { value: 100, display: "100%", label: "of Gcg+ alpha cells were lineage-labeled", caption: "103 cells across 4 pancreata. Complete labeling supports passage through a Fev-expressing state before alpha-cell differentiation." },
-    delta: { value: 100, display: "100%", label: "of Sst+ delta cells were lineage-labeled", caption: "6 cells across 2 pancreata. The sample is small, but every observed delta cell was Fev-lineage-labeled." },
-    gamma: { value: 90.1, display: "90.1%", label: "of Ppy+ gamma cells were lineage-labeled", caption: "71 cells across 8 pancreata. Most, but not all, gamma cells were traced to a Fev-expressing state." },
-    epsilon: { value: 23.2, display: "23.2%", label: "of Ghrl/Gcg+ epsilon cells were lineage-labeled", caption: "26 cells across 2 pancreata. Partial labeling suggests that epsilon cells do not uniformly traverse the same Fev-expressing route." }
+    beta: { name: "Beta", value: 100, display: "100%", marker: "INS1+", sample: "46 cells across 4 pancreata", note: "Every measured beta cell was Fev-lineage labeled." },
+    alpha: { name: "Alpha", value: 100, display: "100%", marker: "GCG+", sample: "103 cells across 4 pancreata", note: "Every measured alpha cell was Fev-lineage labeled." },
+    delta: { name: "Delta", value: 100, display: "100%", marker: "SST+", sample: "6 cells across 2 pancreata", note: "All observed delta cells were labeled, although the sample was small." },
+    gamma: { name: "Gamma", value: 90.1, display: "90.1%", marker: "PPY+", sample: "71 cells across 8 pancreata", note: "Most, but not all, gamma cells passed through a FEV-expressing state." },
+    epsilon: { name: "Epsilon", value: 23.2, display: "23.2%", marker: "GHRL/GCG+", sample: "26 cells across 2 pancreata", note: "Partial labeling suggests a distinct or mixed developmental route for epsilon cells." }
   },
   branches: {
     beta: {
-      primaryValue: "95.8%",
-      primaryLabel: "of beta cells expressed Gng12",
-      secondaryValue: "30.5%",
-      secondaryLabel: "of beta cells expressed Peg10",
-      note: "Gng12 was already detectable in the Fev-high interval and became strongly enriched in beta cells, supporting it as a candidate signal of beta-directed allocation after Fev onset."
+      primary: { value: "95.8%", label: "beta cells expressed GNG12", sample: "n=46 cells, 6 pancreata" },
+      secondary: { value: "30.5%", label: "beta cells expressed PEG10", sample: "n=71 cells, 7 pancreata" },
+      interpretation: "GNG12 was detectable in the FEV-high interval and strongly enriched in beta cells, making it a candidate early signal of beta-directed allocation rather than merely a mature hormone marker."
     },
     alpha: {
-      primaryValue: "100%",
-      primaryLabel: "of alpha cells expressed Peg10",
-      secondaryValue: "5.4%",
-      secondaryLabel: "of alpha cells expressed Gng12",
-      note: "Peg10 was detectable in the Fev-high interval and present in every measured alpha cell, while Gng12 was rare, supporting asymmetric branch-associated programs rather than a generic maturation signal."
+      primary: { value: "100%", label: "alpha cells expressed PEG10", sample: "n=31 cells, 6 pancreata" },
+      secondary: { value: "5.4%", label: "alpha cells expressed GNG12", sample: "n=32 cells, 4 pancreata" },
+      interpretation: "PEG10 was already visible in the FEV-high interval and present in every measured alpha cell, while GNG12 was rare—an asymmetric pattern consistent with early branch allocation."
     }
   }
 };
