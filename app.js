@@ -4,57 +4,68 @@
   const data = window.SNEDDON_LAB_DATA;
   if (!data) return;
 
-  function select(buttons, active, key) {
+  function setSelected(buttons, activeKey, dataKey) {
     buttons.forEach((button) => {
-      button.setAttribute("aria-selected", String(button.dataset[key] === active));
+      button.setAttribute("aria-selected", String(button.dataset[dataKey] === activeKey));
     });
   }
 
   const stageButtons = Array.from(document.querySelectorAll("[data-stage]"));
-  function selectStage(key) {
+  function renderStage(key) {
     const stage = data.stages[key];
-    select(stageButtons, key, "stage");
-    document.getElementById("stage-cells").textContent = stage.cells;
-    document.getElementById("stage-note").textContent = stage.note;
-    document.getElementById("time-marker").style.left = stage.marker;
+    if (!stage) return;
+    setSelected(stageButtons, key, "stage");
+    document.getElementById("stage-context").innerHTML = `<strong>${stage.cells} cells.</strong> ${stage.note.split(". ").slice(1).join(". ")}`;
   }
-  stageButtons.forEach((button) => button.addEventListener("click", () => selectStage(button.dataset.stage)));
+  stageButtons.forEach((button) => button.addEventListener("click", () => renderStage(button.dataset.stage)));
 
   const stateButtons = Array.from(document.querySelectorAll("[data-state]"));
-  function selectState(key) {
+  function renderState(key) {
     const state = data.states[key];
-    select(stateButtons, key, "state");
-    document.getElementById("state-kicker").textContent = state.kicker;
-    document.getElementById("state-main").textContent = state.main;
-    document.getElementById("state-note").textContent = state.note;
+    if (!state) return;
+    setSelected(stateButtons, key, "state");
+    document.getElementById("state-readout").innerHTML = `<strong>${state.name}</strong><br>${state.markers}<br>${state.readout}`;
+    document.getElementById("state-interpretation").textContent = state.interpretation;
   }
-  stateButtons.forEach((button) => button.addEventListener("click", () => selectState(button.dataset.state)));
+  stateButtons.forEach((button) => button.addEventListener("click", () => renderState(button.dataset.state)));
 
-  const lineageButtons = Array.from(document.querySelectorAll("[data-lineage]"));
-  function selectLineage(key) {
+  const lineageList = document.getElementById("lineage-list");
+  const lineageReadout = document.getElementById("lineage-readout");
+  const lineageButtons = [];
+
+  function renderLineage(key) {
     const lineage = data.lineages[key];
-    select(lineageButtons, key, "lineage");
-    document.getElementById("trace-value").textContent = lineage.display;
-    document.getElementById("trace-label").textContent = lineage.label;
-    document.getElementById("trace-bar").style.width = lineage.value + "%";
-    document.getElementById("trace-caption").textContent = lineage.caption;
+    if (!lineage) return;
+    lineageButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lineage === key)));
+    lineageReadout.innerHTML = `<strong>${lineage.display} ${lineage.marker} ${lineage.name.toLowerCase()} cells were lineage labeled.</strong><br>${lineage.sample}. ${lineage.note}`;
   }
-  lineageButtons.forEach((button) => button.addEventListener("click", () => selectLineage(button.dataset.lineage)));
+
+  Object.entries(data.lineages).forEach(([key, lineage]) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "lineage-row";
+    button.dataset.lineage = key;
+    button.setAttribute("aria-pressed", "false");
+    button.innerHTML = `<span>${lineage.name}</span><span class="lineage-track"><span class="lineage-fill" style="width:${lineage.value}%"></span></span><span class="lineage-value">${lineage.display}</span>`;
+    button.addEventListener("click", () => renderLineage(key));
+    lineageButtons.push(button);
+    lineageList.appendChild(button);
+  });
 
   const branchButtons = Array.from(document.querySelectorAll("[data-branch]"));
-  function selectBranch(key) {
+  function renderBranch(key) {
     const branch = data.branches[key];
-    select(branchButtons, key, "branch");
-    document.getElementById("branch-primary-value").textContent = branch.primaryValue;
-    document.getElementById("branch-primary-label").textContent = branch.primaryLabel;
-    document.getElementById("branch-secondary-value").textContent = branch.secondaryValue;
-    document.getElementById("branch-secondary-label").textContent = branch.secondaryLabel;
-    document.getElementById("branch-note").textContent = branch.note;
+    if (!branch) return;
+    setSelected(branchButtons, key, "branch");
+    document.getElementById("branch-grid").innerHTML = `
+      <div class="branch-stat"><span>${branch.primary.value}</span><small>${branch.primary.label}<br>${branch.primary.sample}</small></div>
+      <div class="branch-stat secondary"><span>${branch.secondary.value}</span><small>${branch.secondary.label}<br>${branch.secondary.sample}</small></div>`;
+    document.getElementById("branch-interpretation").textContent = branch.interpretation;
   }
-  branchButtons.forEach((button) => button.addEventListener("click", () => selectBranch(button.dataset.branch)));
+  branchButtons.forEach((button) => button.addEventListener("click", () => renderBranch(button.dataset.branch)));
 
-  selectStage("e14");
-  selectState("fev");
-  selectLineage("beta");
-  selectBranch("beta");
+  renderStage("e14");
+  renderState("fev_chgb");
+  renderLineage("beta");
+  renderBranch("beta");
 }());
